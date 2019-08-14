@@ -1,23 +1,35 @@
 package com.springmvc.springmvcrestclient;
 
+import com.springmvc.springmvcrestclient.entities.Employee;
+import com.springmvc.springmvcrestclient.service.ConsumerRESTService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class SpringMvcRestClientApplication {
-	static final String URL_EMPLOYEES = "http://localhost:8081/employee/all";
+    static Logger logger = LoggerFactory.getLogger(SpringMvcRestClientApplication.class);
 
-	static final String URL_EMPLOYEES_JSON = "http://localhost:8081/employee.json";
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringMvcRestClientApplication.class, args);
-		RestTemplate restTemplate = new RestTemplate();
+    public static void main(String[] args) {
+        ConsumerRESTService consumerRESTService = SpringApplication.run(SpringMvcRestClientApplication.class, args)
+                .getBean(ConsumerRESTService.class);
 
-		String result = restTemplate.getForObject(URL_EMPLOYEES, String.class);
+        logger.info("All employees");
+        logger.info(consumerRESTService.getAllEmployees().toString());
 
-		System.out.println(result);
+        logger.info("Get employee by id = 1");
+        logger.info(consumerRESTService.getEmployeeById(1).toString());
 
-	}
+        Employee employee = new Employee(4, "Name", "Surname", 123);
+        consumerRESTService.addEmployee(employee);
+        logger.info("Added new employee:" + employee.toString());
 
+        logger.info("Delete employee by id = 1");
+        consumerRESTService.deleteEmployeeById(1);
+
+        logger.info("Overall employees");
+        logger.info(consumerRESTService.getAllEmployees().toString());
+    }
 }
