@@ -23,12 +23,16 @@ public class SpringMvcRestClientApplication {
             logger.info("Get employee by id = 1");
             logger.info(consumerRESTService.getEmployeeById(1).toString());
 
-            Employee employee = new Employee(4, "Name", "Surname", 123);
+            logger.info("Delete employee by id = 1");
+            consumerRESTService.deleteEmployeeById(1);
+
+            Employee employee = new Employee(1, "Name", "Surname", 123);
             consumerRESTService.addEmployee(employee);
             logger.info("Added new employee:" + employee.toString());
 
-            logger.info("Delete employee by id = 1");
-            consumerRESTService.deleteEmployeeById(1);
+            logger.info("Get employee by id = 1");
+            logger.info(consumerRESTService.getEmployeeById(1).toString());
+
 
             logger.info("Overall employees");
             logger.info(consumerRESTService.getAllEmployees().toString());
